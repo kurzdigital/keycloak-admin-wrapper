@@ -1,1 +1,11 @@
 language: java
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ${SECURE_API_KEY}
+  file: target/keycloak-admin-wrapper-${TRAVIS_TAG}.jar
+  on:
+    repo: kurzdigital/keycloak-admin-wrapper
+  on:
+    tags: true
