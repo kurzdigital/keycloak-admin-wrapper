@@ -4,6 +4,8 @@ This is a wrapper around the official (REST - based) Keycloak Admin API. See www
 
 Supported Keycloak version is currently 3.4.3. Older versions probably wont work, newer versions of the keycloak server will probably work. 
 
+[![Build Status](https://travis-ci.org/kurzdigital/keycloak-admin-wrapper.svg?branch=master)](https://travis-ci.org/kurzdigital/keycloak-admin-wrapper)
+
 ## Usage
 
 ### Required Configuration
