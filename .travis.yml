@@ -1,5 +1,9 @@
 language: java
 
+before_deploy:
+  - mvn versions:set -DnewVersion=${TRAVIS_TAG}
+  - mvn clean package
+
 deploy:
   provider: releases
   api_key:
