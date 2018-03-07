@@ -15,7 +15,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: mvn deploy
+  script: mvn --settings .maven.xml deploy
   skip_cleanup: true
   on:
     tags: true
@@ -23,3 +23,8 @@ deploy:
 cache:
   directories:
     - ~/.m2/repository
+
+#notifications:
+#  email: false
+#  slack:
+#    secure:<some-key>
