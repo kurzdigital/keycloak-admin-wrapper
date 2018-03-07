@@ -1,15 +1,24 @@
 language: java
 
-before_deploy:
-  - mvn versions:set -DnewVersion=${TRAVIS_TAG}
+script:
   - mvn clean package
 
+before_deploy:
+  - echo $SECURE_GPG_KEY | base64 --decode > codesigning.asc.enc
+  - openssl aes-256-cbc -K $encrypted_6f50ab553585_key -iv $encrypted_6f50ab553585_iv -in codesigning.asc.enc -out codesigning.asc -d
+  - shred --remove codesigning.asc.enc
+  - gpg --fast-import codesigning.asc
+  - shred --remove codesigning.asc
+  - mvn versions:set -DnewVersion=${TRAVIS_TAG}
+  - mvn clean package
+  - mvn --settings .maven.xml verify -P sign
+
 deploy:
-  provider: releases
-  api_key:
-    secure: ${SECURE_API_KEY}
-  file: target/keycloak-admin-wrapper-${TRAVIS_TAG}.jar
-  on:
-    repo: kurzdigital/keycloak-admin-wrapper
+  provider: script
+  script: mvn deploy
   on:
     tags: true
+
+cache:
+  directories:
+    - ~/.m2/repository
