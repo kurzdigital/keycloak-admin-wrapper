@@ -52,7 +52,7 @@ userApi.createUser(user, "password");
 ```
 
 This will create a user in the group `USER` and with password `password`. Normally this would mean 3 requests to keycloak admin API.
-If you don't specify a password, the user will bi initialised without and retrieve an email to update its password first.
+If you don't specify a password, the user will be initialised without and retrieve an email to update its password first.
 
 ### Group API
 
