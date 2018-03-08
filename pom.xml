@@ -8,6 +8,10 @@
   <artifactId>keycloak-admin-wrapper</artifactId>
   <groupId>com.kurzdigital</groupId>
 
+  <name>Keycloak Admin Wrapper</name>
+  <description>This is a wrapper around the official (REST - based) Keycloak Admin API. See www.keycloak.org for more details about keycloak and the Admin API.</description>
+  <url>https://github.com/kurzdigital/keycloak-admin-wrapper</url>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.keycloak>3.4.3.Final</version.keycloak>
@@ -76,6 +80,17 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
       </plugin>
     </plugins>
   </build>
