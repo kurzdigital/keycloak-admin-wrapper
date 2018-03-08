@@ -9,14 +9,11 @@ before_deploy:
   - shred --remove codesigning.asc.enc
   - gpg --fast-import codesigning.asc
   - shred --remove codesigning.asc
+  - mvn versions:set -DnewVersion=${TRAVIS_TAG}
 
 deploy:
   provider: script
-  script:
-    - mvn versions:set -DnewVersion=${TRAVIS_TAG}
-    - mvn clean package
-    - mvn --settings .maven.xml verify -P sign
-    - mvn --settings .maven.xml deploy
+  script: mvn --settings .maven.xml -P sign clean deploy
   skip_cleanup: true
   on:
     tags: true
