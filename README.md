@@ -18,6 +18,16 @@ Otherwise the adapter config can be retrieved from the keycloak client config.
 The user needed for the API classes must have the following permissions:
 - `realm-admin` im Client `realm-management`
 
+### Maven
+
+```xml
+<dependency>
+    <groupId>com.kurzdigital</groupId>
+    <artifactId>keycloak-admin-wrapper</artifactId>
+    <version>0.9.7</version>
+</dependency>
+```
+
 ### Example with User API
 
 The `KeycloakUserAPI` is an easy API to manage users in keycloak.
