@@ -19,7 +19,7 @@ import java.util.List;
  * It is implemented as an {@link AutoCloseable}.
  */
 @SuppressWarnings("unused")
-public class KeycloakUserApi extends AbstractKeycloakApi {
+public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
 
     /**
      * Creates a new {@link KeycloakUserApi} instance. The given user must have realm-management rights on client realm-admin!
@@ -33,6 +33,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
      *
      * @param userId The keycloak user id
      */
+    @Override
     public KeycloakUser getUser(String userId) {
         RealmResource realm = getRealmResource();
         UserResource userResource = realm.users().get(userId);
@@ -50,6 +51,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Retrieves a user by its email in keycloak.
      */
+    @Override
     public KeycloakUser findUserByEmail(String email) {
         RealmResource realm = getRealmResource();
         UsersResource usersResource = realm.users();
@@ -69,6 +71,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
      *
      * @throws MailAlreadyExistsException when the email given is already used by another user.
      */
+    @Override
     public KeycloakUser createUser(KeycloakUser user) throws MailAlreadyExistsException {
         return createUser(user, null);
     }
@@ -80,6 +83,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
      *
      * @throws MailAlreadyExistsException when the email given is already used by another user.
      */
+    @Override
     public KeycloakUser createUser(KeycloakUser user, String password) throws MailAlreadyExistsException {
         RealmResource realm = getRealmResource();
         UsersResource usersResource = realm.users();
@@ -115,6 +119,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Updates the keycloak user with the new data in the given user object.
      */
+    @Override
     public void updateUser(KeycloakUser user) {
         RealmResource realm = getRealmResource();
         UsersResource usersResource = realm.users();
@@ -130,6 +135,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Sets a new password for the user with the given keycloakUserId.
      */
+    @Override
     public void updatePassword(String password, String keycloakUserId) {
         RealmResource realm = getRealmResource();
         UsersResource usersResource = realm.users();
@@ -144,6 +150,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Triggers a new update password email for the user with the given keycloakUserId.
      */
+    @Override
     public void forgotPassword(String keycloakId) {
         RealmResource realm = getRealmResource();
         UsersResource usersResource = realm.users();
@@ -154,6 +161,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Disables the given user. The user can than no longer login.
      */
+    @Override
     public void disableUser(String keycloakUserId) {
         enableDisableUser(keycloakUserId, false);
     }
@@ -161,6 +169,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi {
     /**
      * Enables the given user. The user can login again.
      */
+    @Override
     public void enableUser(String keycloakUserId) {
         enableDisableUser(keycloakUserId, true);
     }

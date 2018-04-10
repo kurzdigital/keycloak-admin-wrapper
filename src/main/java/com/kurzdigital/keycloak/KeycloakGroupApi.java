@@ -22,7 +22,7 @@ import static com.kurzdigital.keycloak.ResponseHelper.*;
  * It is implemented as an {@link AutoCloseable}.
  */
 @SuppressWarnings("unused")
-public class KeycloakGroupApi extends AbstractKeycloakApi {
+public class KeycloakGroupApi extends AbstractKeycloakApi implements GroupApi {
     private static final Logger LOG = LoggerFactory.getLogger(KeycloakGroupApi.class);
 
     /**
@@ -35,6 +35,7 @@ public class KeycloakGroupApi extends AbstractKeycloakApi {
     /**
      * Creates a new group inside keycloak.
      */
+    @Override
     public void createGroup(String group) {
         RealmResource realm = getRealmResource();
         GroupsResource groupsResource = realm.groups();
@@ -48,6 +49,7 @@ public class KeycloakGroupApi extends AbstractKeycloakApi {
     /**
      * retrieves all members of the given group.
      */
+    @Override
     public List<KeycloakUser> getGroupMembers(String groupName) {
         RealmResource realm = getRealmResource();
         GroupsResource groups = realm.groups();
