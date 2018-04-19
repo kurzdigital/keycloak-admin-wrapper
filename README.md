@@ -49,7 +49,7 @@ public final class KeycloakUser {
 #### Create User
 
 ```java
-KeylcloakUser user = KeycloakUser.builder()
+KeycloakUser user = KeycloakUser.builder()
 		 .firstName("Mister")
 		 .lastName("Test")
 		 .email("test@sample.org")
@@ -57,7 +57,7 @@ KeylcloakUser user = KeycloakUser.builder()
 		 .groups(Arrays.asList("USER"))
 		 .build();
 		 
-KeycloakUserAPI userApi = new KeycloakUserApi(adapterConfig, "admin", "12345678");
+KeycloakUserApi userApi = new KeycloakUserApi(adapterConfig, "admin", "12345678");
 userApi.createUser(user, "password");
 ```
 
