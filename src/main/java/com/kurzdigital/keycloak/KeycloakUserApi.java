@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An easy to use wrapper around the keycloak admin API user management rest calls.
@@ -86,6 +87,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
     @Override
     public KeycloakUser createUser(KeycloakUser user, String password) throws MailAlreadyExistsException {
         RealmResource realm = getRealmResource();
+        validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
         UserRepresentation userRepresentation = KeycloakUserMapper.map(user);
         UserRepresentation finalUserRepresentation = userRepresentation;
@@ -122,12 +124,14 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
     @Override
     public void updateUser(KeycloakUser user) {
         RealmResource realm = getRealmResource();
+        validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
         UserResource userResource = usersResource.get(user.getId());
         UserRepresentation userRepresentation = userResource.toRepresentation();
         userRepresentation.setFirstName(user.getFirstName());
         userRepresentation.setLastName(user.getLastName());
         userRepresentation.setEmail(user.getEmail());
+        KeycloakUserMapper.addLocaleToUserRepresentation(user, userRepresentation);
         userResource.update(userRepresentation);
         List<GroupRepresentation> groups = updateGroups(user, realm, usersResource, user.getId());
     }
@@ -215,4 +219,13 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
         return getRealmResource().clients().findByClientId(keycloakConfiguration.getResource()).get(0);
     }
 
+    private void validateLocales(RealmRepresentation realmRepresentation, String givenLocale)
+            throws UnsupportetLocaleException {
+        if (givenLocale != null) {
+            Set<String> supportedLocales = realmRepresentation.getSupportedLocales();
+            if (!supportedLocales.contains(givenLocale)) {
+                throw new UnsupportetLocaleException(supportedLocales);
+            }
+        }
+    }
 }

@@ -4,7 +4,10 @@ import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class KeycloakUserMapper {
@@ -16,6 +19,9 @@ public final class KeycloakUserMapper {
         builder.firstName(userRepresentation.getFirstName());
         builder.lastName(userRepresentation.getLastName());
         builder.email(userRepresentation.getEmail());
+        if (userRepresentation.getAttributes() != null && userRepresentation.getAttributes().containsKey("locale")) {
+            builder.locale(userRepresentation.getAttributes().get("locale").get(0));
+        }
         if (groups != null) {
             builder.groups(groups.stream().map(GroupRepresentation::getName).collect(Collectors.toList()));
         }
@@ -32,8 +38,18 @@ public final class KeycloakUserMapper {
         userRepresentation.setFirstName(user.getFirstName());
         userRepresentation.setLastName(user.getLastName());
         userRepresentation.setEmail(user.getEmail());
+        addLocaleToUserRepresentation(user, userRepresentation);
         userRepresentation.setGroups(user.getGroups());
         return userRepresentation;
+    }
+
+    public static void addLocaleToUserRepresentation(KeycloakUser source, UserRepresentation target) {
+        if (source.getLocale() != null) {
+            Map<String, List<String>> locale = new HashMap<>();
+            locale.put("locale", Collections.singletonList(source.getLocale()));
+
+            target.setAttributes(locale);
+        }
     }
 
 }

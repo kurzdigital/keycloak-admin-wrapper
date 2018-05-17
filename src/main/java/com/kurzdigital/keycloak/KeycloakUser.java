@@ -15,6 +15,7 @@ public final class KeycloakUser {
     private final String firstName;
     private final String lastName;
     private final String email;
+    private final String locale;
     private final List<String> groups;
     private final List<String> roles;
 
@@ -24,6 +25,7 @@ public final class KeycloakUser {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.email = builder.email;
+        this.locale = builder.locale;
         this.groups = new ArrayList<>(builder.groups);
         this.roles = new ArrayList<>(builder.roles);
     }
@@ -48,6 +50,10 @@ public final class KeycloakUser {
         return email;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
     public List<String> getGroups() {
         return groups;
     }
@@ -63,6 +69,7 @@ public final class KeycloakUser {
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
+                .locale(locale)
                 .groups(groups)
                 .roles(roles);
     }
@@ -77,6 +84,7 @@ public final class KeycloakUser {
         private String firstName;
         private String lastName;
         private String email;
+        private String locale;
         private List<String> groups = Collections.emptyList();
         private List<String> roles = Collections.emptyList();
 
@@ -105,6 +113,11 @@ public final class KeycloakUser {
 
         public Builder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public Builder locale(String locale) {
+            this.locale = locale;
             return this;
         }
 
