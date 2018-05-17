@@ -40,6 +40,7 @@ public final class KeycloakUser {
     private final String firstName;
     private final String lastName;
     private final String email;
+    private final String locale;
     private final List<String> groups;
     private final List<String> roles;
 // ...    
@@ -53,6 +54,7 @@ KeycloakUser user = KeycloakUser.builder()
 		 .firstName("Mister")
 		 .lastName("Test")
 		 .email("test@sample.org")
+		 .locale("en")
 		 .userName("test")
 		 .groups(Arrays.asList("USER"))
 		 .build();

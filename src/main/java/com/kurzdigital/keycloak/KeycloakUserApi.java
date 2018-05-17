@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An easy to use wrapper around the keycloak admin API user management rest calls.
@@ -84,8 +85,10 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
      * @throws MailAlreadyExistsException when the email given is already used by another user.
      */
     @Override
-    public KeycloakUser createUser(KeycloakUser user, String password) throws MailAlreadyExistsException {
+    public KeycloakUser createUser(KeycloakUser user, String password)
+            throws MailAlreadyExistsException, UnsupportedLocaleException {
         RealmResource realm = getRealmResource();
+        validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
         UserRepresentation userRepresentation = KeycloakUserMapper.map(user);
         UserRepresentation finalUserRepresentation = userRepresentation;
@@ -120,14 +123,16 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
      * Updates the keycloak user with the new data in the given user object.
      */
     @Override
-    public void updateUser(KeycloakUser user) {
+    public void updateUser(KeycloakUser user) throws UnsupportedLocaleException {
         RealmResource realm = getRealmResource();
+        validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
         UserResource userResource = usersResource.get(user.getId());
         UserRepresentation userRepresentation = userResource.toRepresentation();
         userRepresentation.setFirstName(user.getFirstName());
         userRepresentation.setLastName(user.getLastName());
         userRepresentation.setEmail(user.getEmail());
+        KeycloakUserMapper.addLocaleToUserRepresentation(user, userRepresentation);
         userResource.update(userRepresentation);
         List<GroupRepresentation> groups = updateGroups(user, realm, usersResource, user.getId());
     }
@@ -215,4 +220,13 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
         return getRealmResource().clients().findByClientId(keycloakConfiguration.getResource()).get(0);
     }
 
+    private void validateLocales(RealmRepresentation realmRepresentation, String givenLocale)
+            throws UnsupportedLocaleException {
+        if (givenLocale != null) {
+            Set<String> supportedLocales = realmRepresentation.getSupportedLocales();
+            if (!supportedLocales.contains(givenLocale)) {
+                throw new UnsupportedLocaleException(supportedLocales);
+            }
+        }
+    }
 }
