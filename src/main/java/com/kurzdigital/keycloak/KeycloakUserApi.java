@@ -85,7 +85,8 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
      * @throws MailAlreadyExistsException when the email given is already used by another user.
      */
     @Override
-    public KeycloakUser createUser(KeycloakUser user, String password) throws MailAlreadyExistsException {
+    public KeycloakUser createUser(KeycloakUser user, String password)
+            throws MailAlreadyExistsException, UnsupportedLocaleException {
         RealmResource realm = getRealmResource();
         validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
@@ -122,7 +123,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
      * Updates the keycloak user with the new data in the given user object.
      */
     @Override
-    public void updateUser(KeycloakUser user) {
+    public void updateUser(KeycloakUser user) throws UnsupportedLocaleException {
         RealmResource realm = getRealmResource();
         validateLocales(realm.toRepresentation(), user.getLocale());
         UsersResource usersResource = realm.users();
@@ -220,11 +221,11 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
     }
 
     private void validateLocales(RealmRepresentation realmRepresentation, String givenLocale)
-            throws UnsupportetLocaleException {
+            throws UnsupportedLocaleException {
         if (givenLocale != null) {
             Set<String> supportedLocales = realmRepresentation.getSupportedLocales();
             if (!supportedLocales.contains(givenLocale)) {
-                throw new UnsupportetLocaleException(supportedLocales);
+                throw new UnsupportedLocaleException(supportedLocales);
             }
         }
     }
