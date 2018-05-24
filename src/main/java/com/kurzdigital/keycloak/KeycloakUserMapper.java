@@ -45,7 +45,11 @@ public final class KeycloakUserMapper {
 
     public static void addLocaleToUserRepresentation(KeycloakUser source, UserRepresentation target) {
         if (source.getLocale() != null) {
-            Map<String, List<String>> attributes = new HashMap<>(target.getAttributes());
+
+            Map<String, List<String>> attributes = new HashMap<>();
+            if (target.getAttributes() != null) {
+                attributes.putAll(target.getAttributes());
+            }
             attributes.put("locale", Collections.singletonList(source.getLocale()));
 
             target.setAttributes(attributes);
