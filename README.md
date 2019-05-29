@@ -24,7 +24,7 @@ The user needed for the API classes must have the following permissions:
 <dependency>
     <groupId>com.kurzdigital</groupId>
     <artifactId>keycloak-admin-wrapper</artifactId>
-    <version>0.9.10</version>
+    <version>0.9.11</version>
 </dependency>
 ```
 
