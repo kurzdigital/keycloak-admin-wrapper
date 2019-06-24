@@ -207,7 +207,7 @@ public class KeycloakUserApi extends AbstractKeycloakApi implements UserApi {
         userResource.update(userRepresentation);
     }
 
-    private UserResource getUserResource(String userId) {
+    public UserResource getUserResource(String userId) {
         RealmResource realm = getRealmResource();
         return realm.users().get(userId);
     }
