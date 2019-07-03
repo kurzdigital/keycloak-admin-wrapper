@@ -28,7 +28,7 @@ public abstract class AbstractKeycloakApi implements AutoCloseable {
         this.userName = userName;
     }
 
-    protected RealmResource getRealmResource() {
+    public RealmResource getRealmResource() {
         return keycloak.realm(realm);
     }
 
