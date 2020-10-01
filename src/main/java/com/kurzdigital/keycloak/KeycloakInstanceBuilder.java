@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.engines.URLConnectionEngine;
 import org.jboss.resteasy.client.jaxrs.internal.LocalResteasyProviderFactory;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
@@ -33,6 +34,7 @@ public class KeycloakInstanceBuilder {
         ResteasyClient resteasyClient = new ResteasyClientBuilder()
                 .connectionPoolSize(10)
                 .providerFactory(providerFactory)
+                .httpEngine(new URLConnectionEngine())
                 .build();
 
         return org.keycloak.admin.client.KeycloakBuilder.builder()
