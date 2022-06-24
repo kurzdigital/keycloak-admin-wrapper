@@ -15,7 +15,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.keycloak>4.8.3.Final</version.keycloak>
-    <version.resteasy>3.6.3.Final</version.resteasy>
+    <version.resteasy>3.14.0.Final</version.resteasy>
   </properties>
 
   <dependencies>
